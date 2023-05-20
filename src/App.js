@@ -37,7 +37,7 @@ const WeatherApp = () => {
     return (
         <div>
           <h2>{name}</h2>
-          <p>Temperature: {main.temp}°C</p>
+          <p>Temperature: {Math.round((main.temp)-274.15)}°C</p> {/*Todo: Turn this into a function*/}
           <p>Description: {weatherInfo[0].description}</p>
         </div>
     );
