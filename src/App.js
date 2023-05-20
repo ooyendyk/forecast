@@ -27,6 +27,8 @@ const WeatherApp = () => {
     setCity(event.target.value);
   };
 
+  const kelvinToCelsius = (temperature) => Math.round(temperature - 274.15);
+
   const renderWeatherInfo = () => {
     if (!weather) {
       return <p>No weather data available.</p>;
@@ -37,7 +39,7 @@ const WeatherApp = () => {
     return (
         <div>
           <h2>{name}</h2>
-          <p>Temperature: {Math.round((main.temp)-274.15)}°C</p> {/*Todo: Turn this into a function*/}
+          <p>Temperature: {kelvinToCelsius(main.temp)}°C</p>
           <p>Description: {weatherInfo[0].description}</p>
         </div>
     );
