@@ -10,7 +10,7 @@ const WeatherApp = () => {
             if (city) {
                 try {
                     const response = await axios.get(
-                        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`
+                        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`
                     );
                     setWeather(response.data);
                 } catch (error) {
@@ -32,15 +32,22 @@ const WeatherApp = () => {
             return <p>No weather data available.</p>;
         }
 
-        const { name, main, weather: weatherInfo } = weather;
+        const { city, list } = weather;
 
-        const kelvinToCelsius = (temperature) => Math.round(temperature - 274.15);
+        const kelvinToCelsius = (temperature) => Math.round(temperature - 273.15);
+
+        const weeklyForecast = list.slice(0, 7); // Get the first 7 forecast entries for the week
 
         return (
             <div>
-                <h2>{name}</h2>
-                <p>Temperature: {kelvinToCelsius(main.temp)}°C</p>
-                <p>Description: {weatherInfo[0].description}</p>
+                <h2>{city.name}</h2>
+                {weeklyForecast.map((forecast) => (
+                    <div key={forecast.dt}>
+                        <p>Date: {new Date(forecast.dt_txt).toLocaleDateString()}</p>
+                        <p>Temperature: {kelvinToCelsius(forecast.main.temp)}°C</p>
+                        <p>Description: {forecast.weather[0].description}</p>
+                    </div>
+                ))}
             </div>
         );
     };
